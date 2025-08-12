@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Employee Login</title>
+  <style>
+        :root {
+      --csp-blue: #80badf;
+      --csp-blue-light: #79b3e0;
+      --csp-blue-dark: #40a9f4;
+      --text-dark: #002b46;
+    }
+    body {
+      font-family: "Inter", "Segoe UI", sans-serif;
+      background: url("https://www.transparenttextures.com/patterns/white-wall-3.png") repeat;
+      background-color: #cce7f3;
+      color: var(--text-dark);
+      background-attachment: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+
+    .login-wrapper {
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    form {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .flash-message {
+      color: red;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    p {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #3498db;
+      font-weight: bold;
+    }
+
+    a:hover {
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-wrapper">
+    <h2>Employee Login</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-message">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/employee-login">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+
+    <p>
+      <a href="/admin-login">Admin Login</a> |
+      <a href="/manager-login">Manager Login</a>
+    </p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <style>
+    :root {
+      --csp-blue: #80badf;
+      --csp-blue-light: #79b3e0;
+      --csp-blue-dark: #40a9f4;
+      --text-dark: #002b46;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", sans-serif;
+      background: url("https://www.transparenttextures.com/patterns/white-wall-3.png") repeat;
+      background-color: #f0faff;
+      color: var(--text-dark);
+      background-attachment: fixed;
+      margin: 0;
+      padding: 0;
+    }
+
+    .site-header {
+      position: relative;
+      background: linear-gradient(90deg, var(--csp-blue-dark) 0%, var(--csp-blue) 100%);
+      color: #fff;
+      overflow: hidden;
+      height: 80px;
+      padding: 0.5rem 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-pulse {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+      animation: pulse 6s infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      from { transform: translateX(-20%); opacity: .7; }
+      to   { transform: translateX(20%); opacity: .9; }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      width: 70px;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+    }
+
+    .portal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 0 4px #2e4bac, 0 0 8px #0a9cf5;
+    }
+
+    .typewriter {
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      font-size: 38px;
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      animation: typing 5s steps(50, end) 1;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    .logout-link {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .logout-link{
+      position: absolute;
+      top: -7px;
+      right: 30px;
+      font-size: 22px;
+      font-weight: bold;
+      text-decoration: none;
+    }  
+
+    logout-link:hover {
+      background-color: #2980b9;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+
+    h2 {
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      margin-top: 60px;
+      text-align: center;
+      color: #2c3e50;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    .dashboard-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    button {
+    background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }  
+
+    button:hover {
+      background-color: #2980b9;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    iframe {
+      display: block;
+      margin: 60px auto;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header shadow-sm">
+    <div class="brand">
+      <img src="{{ url_for('static', filename='logo1.png') }}" alt="CSPDCL logo" class="logo" />
+      <h1 class="portal-title">
+        <span class="typewriter">Chhattisgarh State Power Distribution Company Ltd.</span>
+      </h1>
+    </div>
+    <div class="header-pulse"></div>
+  </header>
+
+  <!-- Logout -->
+  <a class="logout-link" href="/logout"><button>Log-out</button></a>
+
+  <!-- Welcome Message -->
+  <h2>Welcome Admin: Tripti</h2>
+
+  <!-- Dashboard Buttons -->
+  <div class="dashboard-buttons">
+    <a href="/add-employee"><button>Add New Employee</button></a>
+    <a href="/manage-employees"><button>Manage Employees</button></a>
+    <a href="/organisational-data"><button>Organisational Data</button></a>
+  </div>
+
+  <!-- Power BI Report -->
+  <iframe title="finalcspdcl" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=35488a87-45ce-422e-a607-6d0c3805e51a&autoAuth=true&ctid=8d46a076-d093-416d-a57b-8692cde13bf8" frameborder="0" allowFullScreen="true"></iframe>
+
+</body>
+</html>

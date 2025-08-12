@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manager Dashboard</title>
+  <style>
+    :root {
+      --csp-blue: #80badf;
+      --csp-blue-dark: #40a9f4;
+      --text-dark: #002b46;
+      --btn-green: #27ae60;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0faff url("https://www.transparenttextures.com/patterns/white-wall-3.png") repeat;
+      background-attachment: fixed;
+      margin: 0;
+      padding: 0;
+      color: var(--text-dark);
+    }
+
+    .site-header {
+      background: linear-gradient(90deg, var(--csp-blue-dark) 0%, var(--csp-blue) 100%);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      height: 80px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .header-pulse {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+      animation: pulse 6s infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      from { transform: translateX(-20%); opacity: .7; }
+      to   { transform: translateX(20%); opacity: .9; }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      width: 70px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+    }
+
+    .portal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 0 4px #2e4bac, 0 0 8px #0a9cf5;
+    }
+
+    .logout-link {
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 16px;
+      border: 2px solid white;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .logout-link:hover {
+      background-color: white;
+      color: var(--csp-blue-dark);
+    }
+
+    h3 {
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 40px;
+      font-size: 22px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 25px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    thead {
+      background: var(--csp-blue-dark);
+      color: white;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .status-pending {
+      color: orange;
+      font-weight: bold;
+    }
+
+    .status-approved {
+      color: green;
+      font-weight: bold;
+    }
+
+    .status-rejected {
+      color: red;
+      font-weight: bold;
+    }
+
+    .action-btn {
+      background: var(--btn-green);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .reject-btn {
+      background-color: #e74c3c;
+    }
+
+    .disabled {
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header shadow-sm">
+    <div class="brand">
+      <img src="{{ url_for('static', filename='logo1.png') }}" alt="CSPDCL logo" class="logo" />
+      <h1 class="portal-title">Chhattisgarh State Power Distribution Company Ltd.</h1>
+    </div>
+    <a class="logout-link" href="/logout">Logout</a>
+    <div class="header-pulse"></div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+    <h3>👥 Team Members from Your Office</h3>
+    {% if employees %}
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Emp ID</th>
+          <th>Designation</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for emp in employees %}
+        <tr>
+          <td>{{ emp[1] }} {{ emp[2] }}</td>
+          <td>{{ emp[3] }}</td>
+          <td>{{ emp[4] }}</td>
+          <td>{{ emp[5] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p>No employees found.</p>
+    {% endif %}
+
+    <h3 style="margin-top: 50px;">📝 Leave Requests</h3>
+    {% if leave_requests %}
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Emp ID</th>
+          <th>Leave Type</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Reason</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for leave in leave_requests %}
+        <tr>
+          <td>{{ leave.name }}</td>
+          <td>{{ leave.emp_id }}</td>
+          <td>{{ leave.type }}</td>
+          <td>{{ leave.start }}</td>
+          <td>{{ leave.end }}</td>
+          <td>{{ leave.reason }}</td>
+          <td class="{% if leave.status == 'Pending' %}status-pending{% elif leave.status == 'Approved' %}status-approved{% else %}status-rejected{% endif %}">
+            {{ leave.status }}
+          <td>
+  {% if leave.status == 'Pending' %}
+    <form method="POST" action="/approve-leave" style="display:inline-block;">
+      <input type="hidden" name="leave_id" value="{{ leave.id }}">
+      <button type="submit" class="action-btn">Approve</button>
+    </form>
+
+    <form method="POST" action="/reject-leave" style="display:inline-block;">
+      <input type="hidden" name="leave_id" value="{{ leave.id }}">
+      <button type="submit" class="action-btn reject-btn">Reject</button>
+    </form>
+  {% else %}
+    <span class="disabled">—</span>
+  {% endif %}
+</td>
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p>No leave requests found.</p>
+    {% endif %}
+  </div>
+
+</body>
+</html>
